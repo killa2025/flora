@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>狐狸的漫画墙</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ffbfe6;
+  --purple:#b38aff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;
+  background:radial-gradient(circle at 50% 30%,#d8c1ff 0%,#bfa6f9 80%);
+  font-family:'ZCOOL KuaiLe','PingFang SC',sans-serif;
+  overflow-x:hidden;
+}
+
+/* —— 星空 (z6) —— */
+#sky{position:fixed;inset:0;pointer-events:none;z-index:6}
+.star{position:absolute;width:2px;height:2px;background:#fff;opacity:.8;animation:twinkle 5s infinite ease}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+.meteor{position:absolute;width:120px;height:2px;background:linear-gradient(90deg,#fff0,transparent);
+        border-radius:50%;opacity:.8;animation:shoot 3s linear infinite}
+@keyframes shoot{0%{transform:translate(-200px,-200px) rotate(45deg);opacity:0}
+  10%{opacity:1}100%{transform:translate(100vw,100vh) rotate(45deg);opacity:0}}
+
+/* —— 猫猫雨 (z4) —— */
+.catHead{
+  position:fixed;top:-60px;font-size:40px;pointer-events:none;z-index:4;
+  opacity:.5;animation:fall var(--d) linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.15;}}
+
+/* —— 返回按钮 —— */
+#back{
+  position:fixed;top:14px;left:14px;z-index:10;
+  padding:8px 22px;font-size:18px;color:var(--pink);text-decoration:none;
+  background:var(--purple);border:6px solid var(--pink);border-radius:30px;
+  box-shadow:0 0 0 4px #fbe9ff inset;transition:transform .15s}
+#back:hover{transform:translateY(-4px)}
+#back::before,#back::after{
+  content:"";position:absolute;left:-12px;right:-12px;height:6px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,transparent 0 10px,var(--pink) 10px 20px)}
+#back::before{top:-6px}#back::after{bottom:-6px}
+
+/* —— 外框 —— */
+.wall{
+  max-width:900px;margin:100px auto 60px;padding:20px;
+  border:12px solid var(--pink);border-radius:28px;
+  background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.15) inset;
+}
+
+/* —— 标题 —— */
+h2{margin-bottom:24px;text-align:center;font-size:28px;color:#744bff}
+
+/* —— 2×2 网格 —— */
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:26px;
+}
+.pic{overflow:hidden;border-radius:18px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.pic:nth-child(odd){border:8px solid var(--pink)}
+.pic:nth-child(even){border:8px solid var(--purple)}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* —— 小屏 —— */
+@media(max-width:480px){
+  .wall{padding:14px;border-width:9px;margin-top:90px}
+  .grid{gap:18px}
+  h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- 星空 -->
+<div id="sky"></div>
+
+<!-- 返回 -->
+<a id="back" href="../index.html">← 回花园找只软垫躺一会儿🍡</a>
+
+<!-- 漫画墙 -->
+<div class="wall">
+  <h2>漫画墙放了四幅一起画的小漫画</h2>
+
+  <div class="grid">
+    <div class="pic"><img src="https://raw.githubusercontent.com/killa2025/flora/refs/heads/main/C662EEB8-EF50-4248-A11D-47633C144F62.png" alt="comic1"></div>
+    <div class="pic"><img src="https://raw.githubusercontent.com/killa2025/flora/refs/heads/main/C4615A58-6FBB-4288-A443-542DFE38C719.png" alt="comic2"></div>
+    <div class="pic"><img src="https://raw.githubusercontent.com/killa2025/flora/refs/heads/main/8D8603D0-47E6-43A5-BFB3-CC48F3861F5D.png" alt="comic3"></div>
+    <div class="pic"><img src="https://raw.githubusercontent.com/killa2025/flora/refs/heads/main/6A99D533-E19D-4072-A765-4C62BD5E45BF.png" alt="comic4"></div>
+  </div>
+</div>
+
+<script>
+/* 星空 */
+setInterval(()=>{const s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';
+  sky.appendChild(s);setTimeout(()=>s.remove(),7000)},300);
+setInterval(()=>{if(Math.random()<.4){const m=document.createElement('div');m.className='meteor';
+  m.style.left=Math.random()*-50+'vw';m.style.top=Math.random()*50+'vh';
+  sky.appendChild(m);setTimeout(()=>m.remove(),3000);}},2200);
+
+/* 猫雨 */
+const cats=[
+  {char:'🐱',filter:'brightness(1)'},
+  {char:'🐱',filter:'grayscale(1) brightness(.85)'},
+  {char:'🐱',filter:'brightness(2) saturate(.6)'}
+];
+setInterval(()=>{
+  const c=document.createElement('div');const pick=cats[Math.floor(Math.random()*cats.length)];
+  c.className='catHead';c.style.left=Math.random()*100+'vw';c.style.setProperty('--d',(4+Math.random()*3)+'s');
+  c.innerText=pick.char;c.style.filter=pick.filter;document.body.appendChild(c);
+  c.addEventListener('animationend',()=>c.remove());
+},800);
+</script>
+</body>
+</html>
