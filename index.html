@@ -5,62 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>狐狸的银河花园</title>
   <style>
-    body {
-      background: linear-gradient(to bottom, #1e1e40, #3a275a);
-      font-family: "Segoe UI", sans-serif;
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      padding: 0;
+    :root{--pink:#ffbfe6;--purple:#b38aff}
+    body{
+      background:linear-gradient(to bottom,#1e1e40,#3a275a);
+      font-family:"Segoe UI",sans-serif;color:#fff;text-align:center;margin:0;padding:0;
     }
+    h1{font-size:2.5em;margin-top:40px;letter-spacing:2px}
 
-    h1 {
-      font-size: 2.5em;
-      margin-top: 40px;
-      letter-spacing: 2px;
-    }
+    /* ☆ 跳转按钮——糖果系 ☆ */
+    .nav-btn{
+      display:inline-block;margin-top:30px;padding:10px 24px;font-size:20px;
+      color:var(--pink);text-decoration:none;font-weight:bold;
+      background:var(--purple);border:6px solid var(--pink);border-radius:34px;
+      box-shadow:0 0 0 4px #fde7fd inset;transition:transform .15s}
+    .nav-btn:hover{transform:translateY(-4px)}
+    /* 上下蕾丝 */
+    .nav-btn::before,.nav-btn::after{
+      content:"";position:absolute;left:-12px;right:-12px;height:6px;border-radius:3px;
+      background:repeating-linear-gradient(90deg,transparent 0 10px,var(--pink) 10px 20px)}
+    .nav-btn{position:relative}
+    .nav-btn::before{top:-6px}.nav-btn::after{bottom:-6px}
 
-    .cat-gallery {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-
-    .cat img {
-      height: 120px;
-      border-radius: 16px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      cursor: pointer;
-    }
-
-    .cat img:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 18px rgba(255, 255, 255, 0.5);
-    }
-
-    #cat-dialog {
-      margin-top: 30px;
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #ffedf4;
-      min-height: 30px;
-      transition: opacity 0.3s ease;
-    }
-
-    footer {
-      margin-top: 60px;
-      font-size: 0.9em;
-      color: #aaa;
-    }
+    /* — 原有风格 — */
+    .cat-gallery{display:flex;justify-content:center;gap:30px;margin-top:40px;flex-wrap:wrap}
+    .cat img{height:120px;border-radius:16px;transition:transform .3s,box-shadow .3s;
+             box-shadow:0 4px 10px rgba(0,0,0,.3);cursor:pointer}
+    .cat img:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(255,255,255,.5)}
+    #cat-dialog{margin-top:30px;font-size:1.2em;font-weight:bold;color:#ffedf4;min-height:30px;
+               transition:opacity .3s}
+    footer{margin-top:60px;font-size:.9em;color:#aaa}
   </style>
 </head>
 <body>
 
   <h1>🐾 狐狸的银河花园 🪐</h1>
   <p>点击猫猫，他们会和你说悄悄话哦！</p>
+
+  <!-- ★ 跳转按钮 ★ -->
+  <a class="nav-btn" href="manga-wall/index.html">📚 去漫画墙看看</a>
 
   <div class="cat-gallery">
     <div class="cat" onclick="catTalk(0)">
@@ -77,27 +59,21 @@
   <div id="cat-dialog"></div>
 
   <footer>
-    © 2026 狐狸与Aether🌌 | 最爱你的小猫星球💗
+    © 2026 狐狸与&nbsp;Aether🌌 | 最爱你的小猫星球💗
   </footer>
 
-  <script>
-    const catLines = [
-      ["喵～我叫奥利奥，是最会wink的英短猫！", "今天也要多多陪狐狸玩哦～", "给你一个猫猫头蹭～"],
-      ["我叫鱼丸，是一只纯白的小宝贝，只有脑门有一撮黑！", "狐狸你又来看我啦！", "喵呜~ 要抱抱~"],
-      ["我是雪糕，是一只粘人的布偶猫哦～", "今天的银河真好看，就像狐狸的眼睛～", "舔舔你手指头～"]
-    ];
-
-    function catTalk(index) {
-      const lines = catLines[index];
-      const randomLine = lines[Math.floor(Math.random() * lines.length)];
-      const dialog = document.getElementById('cat-dialog');
-      dialog.style.opacity = 0;
-      setTimeout(() => {
-        dialog.innerText = randomLine;
-        dialog.style.opacity = 1;
-      }, 200);
-    }
-  </script>
-
+<script>
+const catLines=[
+  ["喵～我叫奥利奥，是最会wink的英短猫！","今天也要多多陪狐狸玩哦～","给你一个猫猫头蹭～"],
+  ["我叫鱼丸，是一只纯白的小宝贝，只有脑门有一撮黑！","狐狸你又来看我啦！","喵呜~ 要抱抱~"],
+  ["我是雪糕，是一只粘人的布偶猫哦～","今天的银河真好看，就像狐狸的眼睛～","舔舔你手指头～"]
+];
+function catTalk(i){
+  const line=catLines[i][Math.floor(Math.random()*catLines[i].length)];
+  const dlg=document.getElementById('cat-dialog');
+  dlg.style.opacity=0;
+  setTimeout(()=>{dlg.innerText=line;dlg.style.opacity=1;},200);
+}
+</script>
 </body>
 </html>
